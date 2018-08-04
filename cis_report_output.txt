@@ -1,0 +1,353 @@
+*******************System Details********************************
+CIS security Audit report
+*DATE*
+Sat Jul 21 19:45:55 IST 2018
+*OS*
+8.10
+*KERNEL*
+Linux osboxes 3.16.0-6-amd64 #1 SMP Debian 3.16.56-1+deb8u1 (2018-05-08) x86_64 GNU/Linux
+*HOST*
+osboxes
+
+
+****************************Code***********************************
+
+
+****************************************************************************
+1.1 Install updates, patches, additional security softwares
+$ apt-get update
+07:45:55 PM
+****************************************************************************
+2.1 Create separate partition for /tmp
+ mount |grep /tmp
+****************************************************************************
+2.5 Create separate partition for /var
+# grep  /var  /etc/fstab
+****************************************************************************
+2.7 Create separate partition for /var/log
+# grep  /var/log  /etc/fstab
+****************************************************************************
+2.9 Create separate partition for /home
+# grep  /home  /etc/fstab
+# /home was on /dev/sda4 during installation
+UUID=30485fee-7edf-4ea8-b946-d8adba4644ce /home           ext4    defaults        0       2
+****************************************************************************
+2.18 Disable mounting of cramfs filesystem
+#/sbin/modprobe -n -v cramfs
+****************************************************************************
+3.1 Set user/group owner on bootloader config
+stat -c %u %g /boot/grub/grub.cfg | egrep ^0 0
+****************************************************************************
+3.2 Set permission on bootloader config
+stat -L -c %a /boot/grub/grub.cfg | egrep .00
+
+No Rows found
+****************************************************************************
+3.4 Require Authentication for siingle user mode
+grep ^root:[*\!]: /etc/shadow
+grep: /etc/shadow: Permission denied
+****************************************************************************
+4.1 Restrict core Dumps
+grep hard core /etc/security/limits.conf
+sysctl fs.suid_dumpable
+./Audit.sh: line 181: sysctl: command not found
+./Audit.sh: line 186: [: missing `]'
+****************************************************************************
+4.4 Disable prelink
+is not installed
+****************************************************************************
+5.1.1 Ensure NIS is not installed
+is not installed
+****************************************************************************
+5.1.5 Ensure talk client is not installed
+is not installed
+****************************************************************************
+5.1.6 Ensure telnet server is not enabled
+grep ^telnet /etc/inetd.conf
+****************************************************************************
+5.1.7 Ensure tftp-server is not enabled
+grep ^tftp /etc/inetd.conf
+****************************************************************************
+5.4 Ensure echo is not enabled
+****************************************************************************
+5.6 Ensure time is not enabled
+****************************************************************************
+6.1 Ensure the X windows system is not installed
+An error occurred
+****************************************************************************
+6.3 Ensure print server is not enabled
+Failed to get unit file state for cups.service: No such file or directory
+Failed to get unit file state for cups.service: No such file or directory
+****************************************************************************
+6.4 Ensure DHCP server is not enabled
+****************************************************************************
+6.5 Configure Network time protocol
+Package: ntp
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 1804
+Maintainer: Debian NTP Team <pkg-ntp-maintainers@lists.alioth.debian.org>
+Architecture: amd64
+Version: 1:4.2.8p10+dfsg-3+deb9u2
+Replaces: apparmor-profiles-extra (<< 1.8)
+Depends: adduser, lsb-base (>= 3.2-13), netbase, libc6 (>= 2.17), libcap2 (>= 1:2.10), libedit2 (>= 2.11-20080614), libopts25 (>= 1:5.18.12), libssl1.1 (>= 1.1.0)
+Pre-Depends: dpkg (>= 1.15.7.2)
+Recommends: perl:any
+Suggests: ntp-doc
+Breaks: apparmor-profiles-extra (<< 1.8), dhcp3-client (<< 4.1.0-1)
+Conffiles:
+ /etc/NetworkManager/dispatcher.d/ntp 9b47f8044e4690b4efa94e636ba6359e
+ /etc/apparmor.d/tunables/ntpd 5519e4c01535818cb26f2ef9e527f191
+ /etc/apparmor.d/usr.sbin.ntpd c7b57741ba521d0b5a2512c98b0b39c1
+ /etc/cron.daily/ntp 97f17637f765708160c8db4cd02fc6ae
+ /etc/default/ntp cd7a62fbb18fa8fe5893dee93064b328
+ /etc/dhcp/dhclient-exit-hooks.d/ntp a062fa223ec16a1dc79acb758ce0c0fb
+ /etc/init.d/ntp c11e6b1c398746e81b1a4cc160d2bbb2
+ /etc/ntp.conf 46220696b8e1a45932533296bddeabc9
+Description: Network Time Protocol daemon and utility programs
+ NTP, the Network Time Protocol, is used to keep computer clocks
+ accurate by synchronizing them over the Internet or a local network,
+ or by following an accurate hardware receiver that interprets GPS,
+ DCF-77, NIST or similar time signals.
+ .
+ This package contains the NTP daemon and utility programs.  An NTP
+ daemon needs to be running on each host that is to have its clock
+ accuracy controlled by NTP.  The same NTP daemon is also used to
+ provide NTP service to other hosts.
+ .
+ For more information about the NTP protocol and NTP server
+ configuration and operation, install the package "ntp-doc".
+Homepage: http://support.ntp.org/
+****************************************************************************
+6.6 Ensure LDAP is not enabled
+dpkg-query: package 'slapd' is not installed and no information is available
+Use dpkg --info (= dpkg-deb --info) to examine archive files,
+and dpkg --contents (= dpkg-deb --contents) to list their contents.
+****************************************************************************
+6.9 Ensure FTP server is not enabled
+Failed to get unit file state for vsftpd.service: No such file or directory
+Failed to get unit file state for vsftpd.service: No such file or directory
+****************************************************************************
+6.11 Ensure IMAP and POP server is not enabled
+enabled
+****************************************************************************
+6.15 Configure Mail Transfer Agent for Local-Only Mode
+----------------------------------------------------------------------------
+			Network Configuration and Firewalls
+----------------------------------------------------------------------------
+7.1.1 Disable IP Forwarding
+net.ipv4.ip_forward = 0
+****************************************************************************
+7.1.2 Disable send packet Redirects
+net.ipv4.conf.all.send_redirects = 1
+net.ipv4.conf.default.send_redirects = 1
+****************************************************************************
+7.2.2 Disable source Routed packet Acceptance
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.default.accept_source_route = 1
+****************************************************************************
+7.2.4 Log Suspicious packets
+net.ipv4.conf.all.log_martians = 0
+net.ipv4.conf.default.log_martians = 0
+****************************************************************************
+7.2.5 Enable Ignore Broadcast Request
+./Audit.sh: line 535: q: command not found
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+****************************************************************************
+7.2.6 Enable Bad Error Message Protection
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+****************************************************************************
+7.3.1 Disable ipv6 router Advertisements
+net.ipv6.conf.all.accept_ra = 1
+net.ipv6.conf.default.accept_ra = 1
+****************************************************************************
+7.3.2 Disable IPv6 Redirect Acceptance
+net.ipv6.conf.all.accept_redirects = 1
+net.ipv6.conf.default.accept_redirects = 1
+****************************************************************************
+7.3.3 Disable IPv6
+./Audit.sh: line 593: [:     inet6 ::1/128 scope host 
+    inet6 2405:204:9490:6f77:20c:29ff:fefb:f775/64 scope global noprefixroute 
+    inet6 fe80::20c:29ff:fefb:f775/64 scope link : integer expression expected
+****************************************************************************
+7.4.1 Install TCP Wrappers
+Package: tcpd
+Status: install ok installed
+Priority: optional
+Section: net
+Installed-Size: 79
+Maintainer: Marco d'Itri <md@linux.it>
+Architecture: amd64
+Multi-Arch: foreign
+Source: tcp-wrappers
+Version: 7.6.q-25
+Replaces: libwrap0 (<< 7.6-8)
+Depends: libc6 (>= 2.4), libwrap0 (>= 7.6-4~)
+Description: Wietse Venema's TCP wrapper utilities
+ Wietse Venema's network logger, also known as TCPD or LOG_TCP.
+ .
+ These programs log the client host name of incoming telnet,
+ ftp, rsh, rlogin, finger etc. requests.
+ .
+ Security options are:
+  - access control per host, domain and/or service;
+  - detection of host name spoofing or host address spoofing;
+  - booby traps to implement an early-warning system.
+****************************************************************************
+7.4.2 Create /etc/hosts.allow
+# /etc/hosts.allow: list of hosts that are allowed to access the system.
+#                   See the manual pages hosts_access(5) and hosts_options(5).
+#
+# Example:    ALL: LOCAL @some_netgroup
+#             ALL: .foobar.edu EXCEPT terminalserver.foobar.edu
+#
+# If you're going to protect the portmapper use the name "rpcbind" for the
+# daemon name. See rpcbind(8) and rpc.mountd(8) for further information.
+#
+
+****************************************************************************
+7.4.3 Verify Permission on /etc/hosts.allow
+-rw-r--r-- 1 root root 411 Feb 15 01:48 /etc/hosts.allow
+****************************************************************************
+7.4.4 Create /etc/hosts.deny
+./Audit.sh: line 670: /etc/hosts.deny: Permission denied
+****************************************************************************
+7.5.1
+grep: /etc/modprobe.d/CIS.conf: No such file or directory
+****************************************************************************
+7.5.3 Disable RDS
+grep: /etc/modprobe.d/CIS.conf: No such file or directory
+****************************************************************************
+7.6 Deactivate Wireless Interfaces
+****************************************************************************
+7.7 Ensure Firewall is active
+****************************************************************************
+					Logging and Auditing
+****************************************************************************
+8.1.1.1 Configure Audit Log Storage Size
+grep: /etc/audit/auditd.conf: Permission denied
+****************************************************************************
+8.1.1.2 Disable System on Audit Log Full
+grep: /etc/audit/auditd.conf: Permission denied
+grep: /etc/audit/auditd.conf: Permission denied
+grep: /etc/audit/auditd.conf: Permission denied
+****************************************************************************
+8.1.2 Install and Enabled auditd service
+dpkg-query: error: --status needs at least one package name argument
+
+Use --help for help about querying packages.
+****************************************************************************
+8.1.4 Record Events That Modify Date and Time Information
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.1.5 Record Events That Modify User/Group Information
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.1.6 Record Events That Modify the System's Network Environment
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.1.8 Collect Login and Logout Events
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.1.9 Collect Session Initiation Information
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.1.15 Collect Changes to System Administration Scope (sudoers)
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.1.16 Collect System Administrator Actions (sudolog)
+grep: /etc/audit/audit.rules: Permission denied
+****************************************************************************
+8.2.1 Install the rsyslog package
+****************************************************************************
+8.2.2 Ensure the rsyslog Service is activated
+enabled
+****************************************************************************
+8.2.3 Configure /etc/rsyslog.conf
+****************************************************************************
+9.1.1 Enable cron Daemon
+****************************************************************************
+9.1.2 Set User/Group Owner and Permission on /etc/crontab
+****************************************************************************
+9.1.3 Set User/Group Owner and Permission on /etc/cron.hourly
+****************************************************************************
+9.1.4 Set User/Group Owner and Permission on /etc/cron.daily
+****************************************************************************
+9.2.1 Set Password Creation Requirement Parameters Using pam_cracklib
+****************************************************************************
+9.2.3 Limit Password Reuse
+****************************************************************************
+9.3.1 Set SSH Protocol to 2
+Protocol 2
+****************************************************************************
+9.3.2 Set LogLevel to INFO 
+LogLevel INFO
+****************************************************************************
+9.3.3 Set Permissions on /etc/ssh/sshd_config
+07:45:56 PM Compliance status:Yes  9.1.4 /etc/cron.daily
+****************************************************************************
+9.3.4 Disable SSH X11 Forwarding
+X11Forwarding yes
+****************************************************************************
+9.3.8 Disable SSH Root Login
+PermitRootLogin without-password
+****************************************************************************
+9.3.9 Set SSH PermitEmptyPasswords to No
+PermitEmptyPasswords no
+****************************************************************************
+9.3.10 Do Not Allow Users to Set Environment Options
+No Row is returned
+****************************************************************************
+9.4 Restrict root Login to System Console
+****************************************************************************
+9.5 Restrict Access to the su Command
+****************************************************************************
+10.1.1 Set Password Expiration Days
+****************************************************************************
+10.1.2 Set Password Change Minimum Number of Days
+****************************************************************************
+10.1.3 Set Password Expiring Warning Days
+No Row is returned
+****************************************************************************
+10.3 Set Default Group for root Account
+0
+****************************************************************************
+10.4 Set Default umask for Users
+****************************************************************************
+10.5 Lock Inactive User Accounts
+./Audit.sh: line 1209: useradd: command not found
+./Audit.sh: line 1211: useradd: command not found
+./Audit.sh: line 1213: [: : integer expression expected
+****************************************************************************
+11.1 Set Warning Banner for Standard Login Services
+****************************************************************************
+11.3 Set Graphical Warning Banner
+banner-message-enable=true
+banner-message-text='Welcome'
+****************************************************************************
+12.1 Verify Permissions on /etc/passwd
+****************************************************************************
+12.2 Verify Permissions on /etc/shadow
+****************************************************************************
+12.3 Verify Permissions on /etc/group
+****************************************************************************
+12.4 Verify User/Group Ownership on /etc/passwd
+****************************************************************************
+12.5 Verify User/Group Ownership on /etc/shadow
+****************************************************************************
+12.6 Verify User/Group Ownership on /etc/group
+****************************************************************************
+13.1 Ensure Password Fields are Not Empty
+****************************************************************************
+13.2 Verify No Legacy + Entries Exist in /etc/passwd File
+****************************************************************************
+13.3 Verify No Legacy + Entries Exist in /etc/shadow File
+/bin/grep: /etc/shadow: Permission denied
+/bin/grep: /etc/shadow: Permission denied
+****************************************************************************
+13.4 Verify No Legacy + Entries Exist in /etc/group File
+****************************************************************************
+Verify No UID 0 Accounts Exist Other Than root
+root
+****************************************************************************
