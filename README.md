@@ -1,2 +1,2 @@
-I have created this Audit/Remediation shell script to expand my knowledge in shell script and system administration. You can modify this script as per your requirement. It can be useful on other platforms like ubuntu too. 
+This Audit/Remediation script might help in auditing and remediation of Debian/Ubuntu Platforms. You can modify this script as per your requirement.
 It is following CIS standards.
